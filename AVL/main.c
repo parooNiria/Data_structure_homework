@@ -334,11 +334,20 @@ int CreateAVL(Sqlist *L, AVLTree *T,int low,int high){
     if(!node) return 0;
     node->data = L->base[mid];
     node->lchild = node->rchild = NULL;
-    node->bf = (high-low)%2 == 0? 0 : 1;
+    int leftHeight = 0, rightHeight = 0;
     *T = node;
-    CreateAVL(L, &((*T)->lchild), low, mid - 1);
-    CreateAVL(L, &((*T)->rchild), mid + 1, high);
-    return 1;
+    leftHeight = CreateAVL(L, &((*T)->lchild), low, mid - 1);
+    rightHeight = CreateAVL(L, &((*T)->rchild), mid + 1, high);
+    if(leftHeight > rightHeight){
+        (*T)->bf = 1; 
+        return leftHeight + 1; 
+    }else if(leftHeight < rightHeight){
+        (*T)->bf = -1; 
+        return rightHeight + 1; 
+    }else{
+        (*T)->bf = 0; 
+        return leftHeight + 1; 
+    }
 }
 
 void TraverseAVL(AVLTree T, Sqlist *L){
