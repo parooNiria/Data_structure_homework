@@ -385,7 +385,11 @@ int DivAVL(AVLTree T, AVLTree *T1, AVLTree *T2, ElemType e){
     TraverseAVL(T, &L);
     int i;
     for(i = 0; i < L.length; i++){
-        if(L.base[i] == e) break;
+        if(L.base[i] >= e) break;
+    }
+    if(i == L.length || L.base[i] != e) {
+        free(L.base);
+        return 0;
     }
     CreateAVL(&L, T1, 0, i);
     CreateAVL(&L, T2, i + 1, L.length - 1);   
